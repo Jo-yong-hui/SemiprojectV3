@@ -413,6 +413,6 @@ Copyright © Kakao Corp. All rights reserved.
                         class="btn btn-danger">
                     모두 동의하지 않습니다</button>
             </div><!-- 버튼들 -->
-            
-        </div>
+
+    </div>
         

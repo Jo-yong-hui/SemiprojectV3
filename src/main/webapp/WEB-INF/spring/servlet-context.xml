@@ -41,6 +41,6 @@
       <property name="order" value="1" />
     </bean>
 
-    <context:component-scan base-package="yonghui.spring.mvc" />
+    <context:component-scan base-package="yh.spring.mvc" />
 
 </beans>
