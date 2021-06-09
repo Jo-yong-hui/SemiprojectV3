@@ -34,6 +34,57 @@ $('#cancel2btn').on('click',function () {
     location.href = '/';
 });
 
+// userid check
+$('#userid').on('blur',function () { checkuserid() });
+$('#userid').on('focus',function (){
+    $('#uidmsg').text(' 8~16자의 영문 소문자, 숫자와 특수기호(_)만 사용할 수 있습니다.');
+    $('#uidmsg').attr('style','color:black');
+});
+$('#userid').on('focus',function () {
+    $('#uidmsg').text(' 8~16자의 영문 소문자, 숫자와 특수기호(_)만 사용할 수 있습니다.');
+    $('#uidmsg').attr('style','color:black');
+});
+
+// ajax check userid
+function checkuserid(){
+    let uid = $('#userid').val();
+    if (uid ==''){ //아이디를 입력하지 않고 탭을 누른 경우
+        $('#uidmsg').text(' 8~16자의 영문 소문자, 숫자와 특수기호(_)만 사용할 수 있습니다.');
+        $('#uidmsg').attr('style','color:black');
+        return;
+    }
+    $.ajax({ url: '/join/checkuid',
+            type: 'GET', data: { 'uid': uid } })
+        .done(function(data){
+            let msg = '사용불가능한 아이디입니다!!';
+            $('#uidmsg').attr('style','color:red');
+
+            if (data.trim() == '0'){
+                msg = '사용가능한 아이디입니다!!';
+                $('#uidmsg').attr('style','color:blue');
+            }
+            $('#uidmsg').text(msg);
+        })
+        .fail(function(xhr, status, error){
+            alert(xhr.status + '/' + error);
+        });
+}
+
+// check equal passwd
+$('#repasswd').on('blur', function (){
+    if ($('#passwd').val() != $('#repasswd').val()) {
+        $('#pwdmsg').text('비밀번호가 일치하지 않아요');
+        $('#pwdmsg').attr('style', 'color:red');
+        // 'color:red !important ' !important 넣으면 색깔이 무조건 바뀌게됨
+        // 비밀번호 일치하지않아요 글씨 색깔잘 나오면 굳이 안넣어도됨
+    }else{
+        $('#pwdmsg').text('비밀번호가 일치합니다!');
+        $('#pwdmsg').attr('style', 'color:blue');
+    }
+});
+
+
+
 // joinme
 $('#joinbtn').on('click',function() {
     if($('#userid').val() =='') alert('아이디를 입력하세요')
@@ -64,10 +115,45 @@ $('#joinbtn').on('click',function() {
     }
 
 });
-$('#cancelbtn').on('click',function() {location.href='/'; });
+$('#cancelbtn').on('click',function() { location.href = '/'; });
 
 // show zipcode
+//http://localhost:8080/join/zipcode?dong=%EC%9E%90%EC%96%911
+//이 주소랑 밑에 쓴거랑 같음, 이주소를 보내는방식이 type: GET방식
+// 주소 성공했으면 function(data)로넘어옴
+// 그 뒤중괄호는 data넘어왓을떄 처리할것
+$('#findzipbtn').on('click', function (){
+    $.ajax({
+        url: '/join/zipcode',
+        type: 'GET',
+        data: { dong: $('#dong').val() }
+    })
+        .done(function(data){
+            // 서버에서 넘어온 데이터는 JSON형식임
+            //alert(data); // 주소창 검색하기 누르면 object로 출력됨
+           //여기서 k는  key(키), v는 value(키에 대한 값)
+            let opts = "";
+            $.each(data, function() { //행단위 반복처리
+                let zip = '';
+                $.each(this, function (k,v) { //열단위 반복처리
+                    if (v !== null) zip += v + ' ';
+                });
+                opts += '<option>' + zip + '</option>';
+            });
+            $('#addrlist').find('option').remove(); // 기존 option태그 삭제
+            $('#addrlist').append(opts); // 새로만든 option태그를 추가함
+        })
+        .fail(function(xhr, status, error) {
+            alert(xhr.status + '/' + error);
+        });
+});
 
+// zipcode dong prevent enter key
+$('input[type="text"]').keydown(function (){
+    if (event.keyCode === 13){
+        event.preventDefault();
+    }
+});
 
 
 // send zipcode
