@@ -7,9 +7,9 @@ import java.util.Map;
 
 public interface BoardDAO {
 
-    boolean insertBoard(Board b);
-    boolean updateBoard(Board b);
-    boolean deleteBoard(String bdno);
+    int insertBoard(Board b);
+    int updateBoard(Board b);
+    int deleteBoard(String bdno);
 
     //목록출력
     List<Board> selectBoard(int snum);
@@ -19,6 +19,6 @@ public interface BoardDAO {
     //게시글 수
     int selectCountBoard();
     int selectCountBoard(Map<String, Object> param);
-    boolean viewCountBoard(String bdno);
+    int viewCountBoard(String bdno);
 
 }
