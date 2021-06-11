@@ -1,7 +1,9 @@
 <%@ page pageEncoding="UTF-8"%>
 <div>
                <i class="fas fa-save fa-2x"> 자료실 </i>
-               <hr> 
+               <hr>
+
+
             </div><!-- 페이지 타이틀 --> 
             
             <div class="row">

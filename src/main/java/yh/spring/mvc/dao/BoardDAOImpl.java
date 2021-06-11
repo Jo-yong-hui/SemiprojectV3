@@ -59,6 +59,6 @@ public class BoardDAOImpl implements  BoardDAO{
 
     @Override
     public int viewCountBoard(String bdno) {
-        return sqlSession.update("board.viewBoard", bdno);
+        return sqlSession.update("board.viewsBoard", bdno);
     }
 }
