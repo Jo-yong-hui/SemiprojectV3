@@ -19,7 +19,7 @@
             </div>
             
             <div class="card card-body bg-light col-10 offset-1">
-                <form name="boardfrm" id="boardfrm">
+                <form name="pdsfrm" id="pdsfrm" enctype="multipart/form-data">
                     <div class="form-group row">
                         <label for="title" 
                                class="col-form-label col-2 text-right text-danger">
@@ -32,7 +32,8 @@
                                class="col-form-label col-2 text-right text-danger">
                             작성자</label>
                         <input type="text" name="userid" id="userid"
-                               class="form-control col-9 border-danger" readonly>
+                               class="form-control col-9 border-danger"
+                               readonly value="${UID}">
                     </div>
                     <div class="form-group row">
                         <label for="contents" 
@@ -81,9 +82,9 @@
                     <div class="form-group row">
                         <hr class="col-10">
                         <div class="col-12 text-center">
-                            <button type="button" class="btn btn-primary">
+                            <button type="button" class="btn btn-primary" id="newpds">
                                 <i class="fas fa-check-circle"></i> 입력완료</button>
-                            <button type="button" class="btn btn-danger">
+                            <button type="reset" class="btn btn-danger">
                                 <i class="fas fa-times-circle"></i> 다시입력</button>
                         </div>
                     </div>

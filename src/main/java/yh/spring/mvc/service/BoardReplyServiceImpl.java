@@ -18,6 +18,7 @@ public class BoardReplyServiceImpl implements BoardReplyService{
         return brdao.selectReply(bdno);
     }
 
+
     @Override
     public boolean newComment(Reply r) { // 댓글
         boolean isInserted = false;
@@ -26,9 +27,8 @@ public class BoardReplyServiceImpl implements BoardReplyService{
     }
 
     @Override
-    public boolean newReply(Reply r) { // 대댓글
-        boolean isInserted = false;
-        if (brdao.insertReply(r) > 0 ) isInserted = true;
-        return isInserted;
+    public boolean newReply(Reply r) {
+        if(brdao.insertReply(r) > 0) return true;
+        return false;
     }
 }

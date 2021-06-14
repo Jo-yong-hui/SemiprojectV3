@@ -10,7 +10,9 @@ import java.util.Map;
 
 @Repository("bdao")
 public class BoardDAOImpl implements  BoardDAO{
-
+//SqlSession이란 RDB에 인증을 거친 논리적인 연결 상태를 말하는 것이다.
+//sql문을 직접실행할 수 있는 객체가 sqlSession이다.
+//Mybatis를 이용하여 DAO를 구현하려면 SqlSession 객체가 필요하다.
     @Autowired private SqlSession sqlSession;
 
     @Override

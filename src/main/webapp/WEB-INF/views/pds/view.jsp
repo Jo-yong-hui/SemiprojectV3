@@ -1,5 +1,26 @@
 <%@ page pageEncoding="UTF-8"%>
- <div>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+<%-- 첨부파일 아이콘 선택 --%>
+<c:set var="atticon1" value="${p.ftype1}" />
+<c:if test="${p.ftype1 ne 'zip' and p.ftype1 ne 'jpg'and p.ftype1 ne 'txt'} ">
+    <c:set var="atticon1" value="file" />
+</c:if>
+
+
+<c:set var="atticon2" value="${p.ftype2}" />
+<c:if test="${p.ftype2 ne 'zip' and p.ftype2 ne 'jpg'and p.ftype2 ne 'txt'} ">
+    <c:set var="atticon1" value="file" />
+</c:if>
+
+<c:if test="${p.ftype3 ne 'zip' and p.ftype3 ne 'jpg'and p.ftype3 ne 'txt'} ">
+    <c:set var="atticon1" value="file" />
+<c:set var="atticon3" value="${p.ftype3}" />
+</c:if>
+
+<div id ="main">
+                 <div>
                <i class="fas fa-save fa-2x"> 자료실 </i>
                <hr> 
             </div><!-- 페이지 타이틀 --> 
@@ -21,23 +42,29 @@
                 <div class="row">
                     <table class="table col-10 offset-1">
                         <tr class="tbbg1 text-center"><th colspan="2">
-                            <h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2>
+                            <h2>${p.title}</h2>
                             </th></tr>
                         <tr class="tbbg2">
-                            <td style="width: 50%">zzyzzy</td>
-                            <td class="text-right">2021.05.21 11:11:11 / 22 / 33</td></tr>
-                        <tr class="tbbg3"><td colspan="2">
-                            Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.Maecenas luctus dignissim magna, vitae iaculis lorem ultricies eu.
+                            <td style="width: 50%">${p.userid}</td>
+                            <td class="text-right">${p.regdate}/ ${p.thumbup} / ${p.views}</td></tr>
+                        <tr class="tbbg3 bdcsize"><td colspan="2">
+                            ${p.contents}
                         </td></tr><!-- 본문 -->
-                        <tr><td colspan="2" class="tbbg4">첨부1 : 
-                            <i class="fas fa-file-archive"></i>
-                            homework.zip (123KB, 10회다운로드함)</td></tr>
-                        <tr><td colspan="2" class="tbbg4">첨부2 : 
-                            <i class="fas fa-file-alt"></i>
-                            homework.txt (456KB, 25회다운로드함)</td></tr>
-                        <tr><td colspan="2" class="tbbg4">첨부3 : 
-                            <i class="fas fa-file-image"></i>
-                            homework.png (789KB, 55회다운로드함)</td></tr>
+                        <tr><td colspan="2" class="tbbg4 patxt">첨부1 :
+                            <img src="file/img/${atticon1}.png" />
+                            ${p.fname1} (${p.fsize1}KB, ${p.fdown1}회 다운로드함)</td></tr>
+
+                        <c:if test="${p.fname2 ne '-'}"> <!-- 여기서-는 마이너스임 -->
+                        <tr><td colspan="2" class="tbbg4 patxt">첨부2 :
+                            <img src="/img/${atticon2}.png" />
+                            ${p.fname2} (${p.fsize2}KB, ${p.fdown2}회 다운로드함)</td></tr>
+                        </c:if>
+
+                        <c:if test="${p.fname3 ne '-'}">
+                        <tr><td colspan="2" class="tbbg4 patxt">첨부3 :
+                            <img src="/img/${atticon3}.png" />
+                        ${p.fname3} (${p.fsize3}KB,${p.fdown3}회 다운로드함)</td></tr>
+                        </c:if>
                     </table>
                 </div>    
                
@@ -100,4 +127,6 @@
                        </div>
                    </form>
                </div>            
-           </div><!-- 댓글쓰기 -->  
+           </div><!-- 댓글쓰기 -->
+
+</div>
