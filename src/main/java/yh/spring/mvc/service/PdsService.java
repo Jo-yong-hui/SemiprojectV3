@@ -17,4 +17,10 @@ public interface PdsService {
 
     boolean downCountPds(String pno, String order);
 
+    void modifyRecmd(String pno);
+
+    String readPrvpno(String pno);
+    String readNxtpno(String pno);
+
+    Pds removePds(String pno);
 }

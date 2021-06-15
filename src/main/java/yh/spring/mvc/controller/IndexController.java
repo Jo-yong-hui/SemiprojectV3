@@ -11,4 +11,14 @@ public class IndexController {
 		public String index() {
 			return "index.tiles";
 	}
+
+
+	@RequestMapping("/pds")
+	public String pds() {
+		return "pds.tiles";
+	}
+
+
+
+
 }

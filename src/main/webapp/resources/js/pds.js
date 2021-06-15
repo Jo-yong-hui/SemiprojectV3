@@ -18,4 +18,26 @@ $('#newpds').on('click', function (){
 
    }
 
+});
+
+// recommand pno가 몇번인 value값
+$('#pdthumbtn').on('click',function(){
+    location.href = '/pds/recommd?pno=' + $('#pno').val() ;
+});
+
+// prevbtn
+$('#pdprvbtn').on('click',function() {
+    location.href = '/pds/prev?pno=' + $('#pno').val();
+
+});
+ ;
+
+// nextbtn
+$('#pdnxtbtn').on('click',function() {
+    location.href = '/pds/next?pno=' + $('#pno').val();
+});
+
+// rmvbtn
+$('#pdrmvbtn').on('click',function (){
+    location.href = '/pds/pdrmv?pno=' + $('#pno').val();
 })

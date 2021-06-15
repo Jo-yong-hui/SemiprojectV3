@@ -2,21 +2,26 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<%-- 첨부파일 아이콘 선택 --%>
-<c:set var="atticon1" value="${p.ftype1}" />
-<c:if test="${p.ftype1 ne 'zip' and p.ftype1 ne 'jpg'and p.ftype1 ne 'txt'} ">
-    <c:set var="atticon1" value="file" />
+
+<c:if test="${param.pno eq 'null' or empty param.pno}">
+    <script>alert('보여줄 내용이 없어요!!'); location.href='/pds/list?cp=1'</script>
 </c:if>
 
+<%-- 첨부파일 아이콘 선택
+ 이 3가지 조건 안맞으면 일반 파일 그림으로 표시됨  --%>
+<c:set var="atticon1" value="${p.ftype1}" />
+<c:if test="${p.ftype1 ne 'zip' and p.ftype1 ne 'jpg' and p.ftype1 ne 'txt'} ">
+    <c:set var="atticon1" value="file" />
+</c:if>
 
 <c:set var="atticon2" value="${p.ftype2}" />
-<c:if test="${p.ftype2 ne 'zip' and p.ftype2 ne 'jpg'and p.ftype2 ne 'txt'} ">
-    <c:set var="atticon1" value="file" />
+<c:if test="${p.ftype2 ne 'zip' and p.ftype2 ne 'jpg' and p.ftype2 ne 'txt'} ">
+    <c:set var="atticon2" value="file" />
 </c:if>
 
-<c:if test="${p.ftype3 ne 'zip' and p.ftype3 ne 'jpg'and p.ftype3 ne 'txt'} ">
-    <c:set var="atticon1" value="file" />
 <c:set var="atticon3" value="${p.ftype3}" />
+<c:if test="${p.ftype3 ne 'zip' and p.ftype3 ne 'jpg' and p.ftype3 ne 'txt'} ">
+    <c:set var="atticon3" value="file" />
 </c:if>
 
 <div id ="main">
@@ -28,11 +33,13 @@
            <div>
                 <div class="row">
                     <div class="col-5 offset-1">
-                        <button type="button" class="btn btn-light">
+                        <button type="button" class="btn btn-light" id="pdprvbtn">
                         <i class="fas fa-chevron-left"></i> 이전게시물</button>
-                        <button type="button" class="btn btn-light">
+                        <button type="button" class="btn btn-light" id="pdnxtbtn">
                         <i class="fas fa-chevron-right"></i> 다음게시물</button>
                     </div>
+
+
                     <div class="col-5 text-right">
                         <button type="button" class="btn btn-light">
                         <i class="fas fa-plus-circle"></i> 새글쓰기</button>
@@ -51,19 +58,22 @@
                             ${p.contents}
                         </td></tr><!-- 본문 -->
                         <tr><td colspan="2" class="tbbg4 patxt">첨부1 :
-                            <img src="file/img/${atticon1}.png" />
-                            ${p.fname1} (${p.fsize1}KB, ${p.fdown1}회 다운로드함)</td></tr>
+                            <img src="/img/${atticon1}.png" />
+                            <a href="/pds/down?pno=${p.pno}&order=1">${p.fname1}</a>
+                            (${p.fsize1}KB, ${p.fdown1}회 다운로드함)</td></tr>
 
                         <c:if test="${p.fname2 ne '-'}"> <!-- 여기서-는 마이너스임 -->
                         <tr><td colspan="2" class="tbbg4 patxt">첨부2 :
                             <img src="/img/${atticon2}.png" />
-                            ${p.fname2} (${p.fsize2}KB, ${p.fdown2}회 다운로드함)</td></tr>
+                            <a href="/pds/down?pno=${p.pno}&order=2">${p.fname2}</a>
+                            (${p.fsize2}KB, ${p.fdown2}회 다운로드함)</td></tr>
                         </c:if>
 
                         <c:if test="${p.fname3 ne '-'}">
                         <tr><td colspan="2" class="tbbg4 patxt">첨부3 :
                             <img src="/img/${atticon3}.png" />
-                        ${p.fname3} (${p.fsize3}KB,${p.fdown3}회 다운로드함)</td></tr>
+                            <a href="/pds/down?pno=${p.pno}&order=3">${p.fname3}</a>
+                            (${p.fsize3}KB,${p.fdown3}회 다운로드함)</td></tr>
                         </c:if>
                     </table>
                 </div>    
@@ -73,15 +83,20 @@
                         <button type="button" 
                                 class="btn btn-warning text-white">
                         <i class="fas fa-edit"></i> 수정하기</button>
-                        <button type="button" class="btn btn-danger">
+                        <button type="button" class="btn btn-danger" id="pdrmvbtn">
                         <i class="fas fa-trash-alt"></i> 삭제하기</button>
                     </div>
-                    <div class="col-5 text-right">
+                   <div class="col-5 text-right">
+                   <button type="button" class="btn btn-success" id="pdthumbtn" >
+                       <i class="fas fa-thumbs-up"></i> 추천하기</button>
+
                         <button type="button" class="btn btn-light">
                         <i class="fas fa-list"></i> 목록으로</button>
                     </div>
                </div>    
-            </div><!-- 본문글 -->    
+                <input type="hidden" id="pno" value="${param.pno}" />
+
+            </div><!-- 본문글 -->
             
            <div>
               <div class="row">

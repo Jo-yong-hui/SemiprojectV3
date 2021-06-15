@@ -25,30 +25,6 @@ public class Pds {
     protected String uuid;
 
 
-    public Pds(String pno, String title, String userid, String regdate, String views, String thumbup, String contents, String fname1, String fname2, String fname3, String fsize1, String fsize2, String fsize3, String ftype1, String ftype2, String ftype3, String fdown1, String fdown2, String fdown3, String uuid) {
-        this.pno = pno;
-        this.title = title;
-        this.userid = userid;
-        this.regdate = regdate;
-        this.views = views;
-        this.thumbup = thumbup;
-        this.contents = contents;
-        this.fname1 = fname1;
-        this.fname2 = fname2;
-        this.fname3 = fname3;
-        this.fsize1 = fsize1;
-        this.fsize2 = fsize2;
-        this.fsize3 = fsize3;
-        this.ftype1 = ftype1;
-        this.ftype2 = ftype2;
-        this.ftype3 = ftype3;
-        this.fdown1 = fdown1;
-        this.fdown2 = fdown2;
-        this.fdown3 = fdown3;
-        this.uuid = uuid;
-    }
-
-
     public String getPno() {
         return pno;
     }

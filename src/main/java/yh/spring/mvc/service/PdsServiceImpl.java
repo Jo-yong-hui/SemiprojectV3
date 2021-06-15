@@ -8,16 +8,18 @@ import yh.spring.mvc.vo.Pds;
 import yh.spring.mvc.utils.FileUpDownUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service("psrv")
-public class PdsServiceImpl implements PdsService{
+public class PdsServiceImpl implements PdsService {
 
     private PdsDAO pdao;
     private FileUpDownUtil fud;
 
     @Autowired
-    public PdsServiceImpl(PdsDAO pdao,FileUpDownUtil fud) {
+    public PdsServiceImpl(PdsDAO pdao, FileUpDownUtil fud) {
         this.pdao = pdao;
         this.fud = fud;
     }
@@ -32,17 +34,17 @@ public class PdsServiceImpl implements PdsService{
 
         // 전송된 파일데이터를 하나씩 조사헤서 파일정보를 알아낸 후 배열에 저장
         // 첨부한 파일이 존재한다면 업로드하기
-        for(MultipartFile f : file){
-            if(!f.getOriginalFilename().isEmpty() )
-            files.add(fud.procUpload(f, uuid));
-            // 파일 업로드시 앞서 만든 uuid값을 매개변수로 넘김
-            // 업로드한 결과값은 '파일명/파일크기/파일종류'로 넘어옴
-            // 이렇게 넘어온 파일정보는 동적배열에 저장
+        for (MultipartFile f : file) {
+            if (!f.getOriginalFilename().isEmpty())
+                files.add(fud.procUpload(f, uuid));
+                // 파일 업로드시 앞서 만든 uuid값을 매개변수로 넘김
+                // 업로드한 결과값은 '파일명/파일크기/파일종류'로 넘어옴
+                // 이렇게 넘어온 파일정보는 동적배열에 저장
             else
                 files.add("-/-/-");
-                // 업로드한 파일이 없는 경우 -/-/-를 배열에 저장
+            // 업로드한 파일이 없는 경우 -/-/-를 배열에 저장
         }
-        
+
         //배열에 저장한 정보들을 하나씩 추출해서 Pds에 각각 저장
         p.setFname1(files.get(0).split("[/]")[0]); // 파일명
         p.setFsize1(files.get(0).split("[/]")[1]); // 파일크기
@@ -61,7 +63,7 @@ public class PdsServiceImpl implements PdsService{
         p.setUuid(uuid);
 
         boolean isInserted = false; //입력이 되었는지 확인하는 코드
-        if (pdao.insertPds(p) > 0 ) isInserted = true;
+        if (pdao.insertPds(p) > 0) isInserted = true;
 
         return isInserted;
     }
@@ -86,11 +88,46 @@ public class PdsServiceImpl implements PdsService{
 
     @Override
     public Pds readOneFname(String pno, String order) {
-        return null;
+        Map<String, String> param = new HashMap<>();
+        param.put("order", "fname" + order);
+        param.put("pno", pno);
+        return pdao.selectOneFname(param);
     }
 
     @Override
     public boolean downCountPds(String pno, String order) {
-        return false;
+        boolean isupdated = false;
+
+        Map<String, String> param = new HashMap<>();
+        param.put("order", "fdown" + order);
+        param.put("pno", pno);
+
+        if (pdao.downCountPds(param) > 0) isupdated = true;
+        return isupdated;
+    }
+
+    @Override
+    public void modifyRecmd(String pno) {
+        pdao.updateRecmd(pno);
+    }
+
+    @Override
+    public String readPrvpno(String pno) {
+        return pdao.selectPrvpno(pno);
+    }
+
+    @Override
+    public String readNxtpno(String pno) {
+        return pdao.selecNxtpno(pno);
+    }
+
+    //삭제할 파일을 p 변수에 담아 리턴
+    @Override
+    public Pds removePds(String pno) {
+        Pds p = pdao.selectOnePds(pno); //삭제파일 파일정보를 pno를 통해  모든 정보 가져와서 삭제하는 작업
+        pdao.deletePds(pno);            // 해당 게시글 삭제
+        return p ; //이 p값은 컨트롤러에서 받아서 삭제
     }
 }
+
+

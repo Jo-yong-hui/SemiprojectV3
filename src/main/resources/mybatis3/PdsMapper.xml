@@ -17,12 +17,12 @@
     <select id="selectPds" statementType="PREPARED"
             parameterType="int" resultType="yh.spring.mvc.vo.Pds" >
         select pno, title, userid, regdate, thumbup, views from pds
-        order by pno desc limit #{snum}, 30;
+        order by pno desc limit #{snum}, 30
    </select>
 
     <select id="countPds" statementType="PREPARED"
-            parameterType="int">
-        select count(pno) cnt from pds;
+            resultType="int">
+        select count(pno) cnt from pds
     </select>
 
     <select id="selectOnePds" statementType="PREPARED"
@@ -30,4 +30,48 @@
             resultType="yh.spring.mvc.vo.Pds">
     select * from pds where pno = #{pno}
     </select>
+
+    <select id = "selectFname" statementType="PREPARED"
+            parameterType="Map"
+            resultType="yh.spring.mvc.vo.Pds">
+        select ${order} fname1, uuid from pds
+        where pno = #{pno}
+    </select>
+
+    <update id="updateDown" statementType="PREPARED"
+    parameterType="Map">
+        update pds set ${order} = ${order} + 1
+        where pno = ${pno};
+
+    </update>
+
+    <update id="updateThumbs" statementType="PREPARED"
+         parameterType="String">
+        update pds set thumbup = thumbup + 1
+        where pno = #{pno}
+    </update>
+
+    <!-- 매개변수 pno로 넘김-->
+    <select id="selectPrev" statementType="PREPARED"
+    parameterType="String" resultType="String">
+        select prev from
+            (select pno,
+                    lead(pno) over(order by pno desc) prev
+             from pds) newone
+        where pno = #{pno}
+    </select>
+
+    <select id="selectNext" statementType="PREPARED"
+    parameterType="String" resultType="String">
+        select next from
+        (select pno,
+                lag(pno) over(order by pno desc) next
+             from pds) newone
+        where pno = #{pno}
+    </select>
+
+    <delete id="deletePds" statementType="PREPARED"
+            parameterType="String">
+     delete from pds where pno = #{pno}
+    </delete>
 </mapper>
